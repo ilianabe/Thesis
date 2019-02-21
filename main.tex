@@ -9,12 +9,33 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{latexsym}
+\usepackage{upgreek}
+\usepackage{tikz}
 \bibliographystyle{hellas}
 \usepackage{hyphenat}
 \usepackage{makeidx}
-\addto\captionsgreek{%
-  \renewcommand{\indexname}{Ευρετήριο όρων}%
-}
+% \addto\captionsgreek{%
+%   \renewcommand{\indexname}{Ευρετήριο όρων}%
+% }
+
+\usetikzlibrary{er,positioning}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{caption}
+\DeclareCaptionFormat{myformat}{#3}
+\captionsetup[algorithm]{format=myformat}
+\newtheorem*{remark}{Lemma}
+
+%\title{Διπλωματικη}
+%\author{lia.naki.16 }
+%\date{May 2017}
+
+\usepackage{natbib}
+\usepackage{graphicx}
 \makeindex
 
 % 1.5 spacing
@@ -35,11 +56,11 @@
 
 \newtheorem{definition}{Ορισμός}
 \newtheorem{proposition}{Πρόταση}
-\newtheorem{theorem}{Θεώρημα}
-\newtheorem{corollary}{Συμπέρασμα}
-\newtheorem{lemma}{Λήμμα}
+%\newtheorem{theorem}{Θεώρημα}
+%\newtheorem{corollary}{Συμπέρασμα}
+%\newtheorem{lemma}{Λήμμα}
 \newtheorem{example}{Παράδειγμα}
-\newtheorem{remark}{Σημείωση}
+%\newtheorem{remark}{Σημείωση}
 \newtheorem{notation}{Συμβολισμός}
 \newtheorem{law}{Νόμος}
 \renewcommand{\thedefinition}{\arabic{chapter}.\arabic{definition}}
