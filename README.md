@@ -8,7 +8,7 @@
    1. Overview
    2. Quantum Computation
       1. Qubits
-      2.Quantum Circuits
+      2. Quantum Circuits
    3. The Dirac Notation and Hilbert Spaces
    4. Quantum Circuits
       1. The quantum circuit model
