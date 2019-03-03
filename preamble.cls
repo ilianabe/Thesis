@@ -9,11 +9,11 @@
 %
 %%%%%%
 % Class Information
-\def\filename{thesis}
+\def\filename{preamble}
 \def\fileversion{1.0}
 \def\filedate{2014/10/25}
 \NeedsTeXFormat{LaTeX2e}[1996/12/01]
-\ProvidesClass{thesis}[%
+\ProvidesClass{preamble}[%
     \filedate\space\fileversion\space LaTeX document class.]
 % Required Packages
 \RequirePackage{ifthen}
