@@ -19,6 +19,9 @@
 % }
 \usetikzlibrary{arrows}
 \usetikzlibrary{er,positioning}
+\tikzstyle{information text}=[text badly centered,font=\small,text width=3cm]
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
