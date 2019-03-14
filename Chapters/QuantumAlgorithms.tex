@@ -220,10 +220,116 @@
 \\
 \includegraphics[width=10cm]{figures/DeutschAlgo.png}\\
 \\
-Ας δούμε λίγο επιγραμματικά τον αλγόριθμο. Όπως είπαμε ξεκινάμε περίπου όπως στο παράδειγμα για τον κβαντικό παραλληλισμό. Αρχικά η κατάσταση του καταχωρητή	είναι $\vert 01 \rangle$. Στη συνέχεια δρουν οι δύο πύλες $Hadamard$. Μετά ξεκινάει ο συνδυασμός κβαντικών πυλών $U_f$ και ακολουθεί η πύλη στο πρώτο $qubit$. Μετράμε την κατάσταση του πρώτου $qubit$. Αν είναι στην κατάσταση $\vert 0 \rangle$, τότε η $f(x)$ είναι σταθερή ενώ αν βρεθεί στην κατάσταση $\vert 1 \rangle$ η $f(x)$ είναι ισορροπημένη~\cite{Bellac:2006:SIQ:1202004}.
+Ας δούμε λίγο επιγραμματικά τον αλγόριθμο. Ο στόχος του αλγορίθμου δεν είναι να υπολογίσουμε όλες τις ξεχωριστές τιμές της $f(x)$, αλλά να ορίσουμε την τιμή της $f(0) \oplus f(1)$. Όπως είπαμε ξεκινάμε περίπου όπως στο παράδειγμα για τον κβαντικό παραλληλισμό. Αρχικά η κατάσταση του καταχωρητή	είναι $\vert 01 \rangle$. Στη συνέχεια δρουν οι δύο πύλες $Hadamard$. Μετά ξεκινάει ο συνδυασμός κβαντικών πυλών $U_f$ και ακολουθεί η πύλη στο πρώτο $qubit$. Μετράμε την κατάσταση του πρώτου $qubit$. Αν είναι στην κατάσταση $\vert 0 \rangle$, τότε η $f(x)$ είναι σταθερή ενώ αν βρεθεί στην κατάσταση $\vert 1 \rangle$ η $f(x)$ είναι ισορροπημένη~\cite{Bellac:2006:SIQ:1202004}.
+
+Ας δούμε λίγο πιο αναλυτικά τη λειτουργία του αλγορίθμου. Αρχικά δημιουργώντας την κβαντική εκδοχή του κυκλώματατος για την $f$, μπορούμε να δώσουμε κβαντικά $qubits$ σαν είσοδο. Επίσης έχουμε ορίσει την $U_f$ τέτοια ώστε αν θέσουμε το δεύτερο $qubit$ στην κατάσταση $\vert y \rangle = \vert 0 \rangle$, τότε το πρώτο $qubit$ που είναι στην κατάσταση $\vert x \rangle = \vert 0 \rangle$ θα δώσει $\vert 0 \oplus f(0) \rangle = \vert f(0) \rangle$ στο δεύτερο $qubit$ και αν έχουμε $\vert x \rangle = \vert 1 \rangle$ τότε το πρώτο $qubit$ θα μας δώσει
+$\vert f(1) \rangle$. Βέβαια τα $qubits$ εισόδου δεν είναι απαραίτητο να είναι σε μια μόνο κατάσταση, αλλά μπορεί να βρίσκονται σε μια υπέρθεση των $\vert 0 \rangle$ και $\vert 1 \rangle$. Κρατώντας το δεύτερο $qubit$ στην κατάσταση $\vert y \rangle = \vert 0 \rangle$, θέτουμε το πρώτο $qubit$ σαν την υπέρθεση των δυο καταστάσεων, άρα:
+
+ \begin{align*}
+   \vert x \rangle = \frac{1}{\sqrt{2}}\vert 0 \rangle + \frac{1}{\sqrt{2}} \vert 1 \rangle
+ \end{align*}
+
+Επομένως η είσοδος που θα δώσουμε στην $U_f$ είναι:
+\begin{align}
+  (\frac{1}{\sqrt{2}}\vert 0 \rangle + \frac{1}{\sqrt{2}}\vert 1 \rangle)\vert 0 \rangle\\
+  = \frac{1}{\sqrt{2}}\vert 0 \rangle \vert 0 \rangle + \frac{1}{\sqrt{2}}\vert 1 \rangle \vert 0 \rangle
+\end{align}
+
+Η έξοδος της $U_f$ είναι η εξής:
+
+\begin{flalign}
+   U_f (\frac{1}{\sqrt{2}}\vert 00 \rangle + \frac{1}{\sqrt{2}} \vert 10 \rangle) =&
+  =\frac{1}{\sqrt{2}}U_f \vert 00 \rangle + \frac{1}{\sqrt{2}}U_f \rangle 10 \vert=&&\\
+  &=\frac{1}{\sqrt{2}}\vert 0 \rangle \vert0 \oplus f(0) \rangle + \frac{1}{\sqrt{2}} \vert 1 \rangle \vert 0 \oplus f(1)\rangle = &&\\
+  &= \frac{1}{\sqrt{2}} \vert 0 \rangle \vert f(0) \rangle + \frac{1}{\sqrt{2}} \vert 1 \rangle \vert 0 \oplus f(1) \rangle
+\end{flalign}
+
+Αν μετρούσαμε τώρα την έξοδο σε υπολογιστική βάση, το αποτέλεσμα θα ήταν είτε $\vert 0 \rangle \vert f(0) \rangle$ είτε $\vert 1 \rangle \vert 1 \oplus f(1) \rangle$. Μετά την μέτρηση η κατάσταση της εξόδου θα είναι είτε $\vert f(0) \rangle$ είτε $\vert f(1) \rangle$. Όμως ο στόχος του αλγορίθμου δεν είναι να υπολογίσουμε όλες τις διαφορετικές τιμές της $f(x)$. Ο αλγόριθμος περιγράφει πως μπορούμε	 να χρησιμοποιήσουμε τους κβαντικούς μηχανισμούς ($interference$) για να βρουμε μια γενική πληροφορία για την $f$ και πως μπορούμε να το κάνουμε αυτό πολύ πιο αποδοτικά σε σχέση με τον κλασσικό τρόπο.
+Αρχικά το πρώτο $bit$ είναι στην κατάσταση $\vert 0 \rangle$ και το δεύτερο στην κατάσταση $\frac{\vert 0 \rangle - \vert 1 \rangle}{2}$. Πριν επιδράσει καμία πύλη, έχουμε ότι
+\begin{align}
+  \vert \psi_0 \rangle = \vert 0 \rangle(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{align}
+
+Αμέσως μετά την επίδραση της πρώτης πύλης $Hadamard$ στο πρώτο $qubit$ η κατάσταση γίνεται:
+
+\begin{flalign}
+  \vert \psi_1 \rangle &= (\frac{1}{\sqrt{2}} \vert 0 \rangle) =&&\\
+  &= \frac{1}{\sqrt{2}} \vert 0 \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}) + \frac{1}{\sqrt{2}}\vert 1 \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{flalign}
+
+Και στη συνέχεια επιδρά ο συνδυασμός πυλών $U_f$:
+
+\begin{flalign}
+  \vert \psi_2 \rangle &= \frac{(-1)^{f(0)}}{\sqrt{2}}\vert 0 \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}) + \frac{(-1)^{f(1)}}{\sqrt{2}} \vert 1 \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}) =&&\\
+  &= (\frac{(-1)^{f(0)} \vert 0 \rangle + (-1)^{f(1)} \vert 1 \rangle}{\sqrt{2}})(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}) =&&\\
+  &= (-1)^{f(0)} (\frac{\vert 0 \rangle + (-1)^{f(0) \oplus f(1)} \vert 1 \rangle}{\sqrt{2}})(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{flalign}
+
+Εδώ έχουμε μερικές διαφορετικές περιπτώσεις. Αν η $f$ είναι σταθερή συνάρτηση, τότε έχουμε:
+
+\begin{align}
+  \vert \psi_2 \rangle = (-1)^{f(0)} (\frac{\vert 0 \rangle + \vert 1 \rangle}{\sqrt{2}})(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{align}
+
+Και άρα η η τελευταία πύλη $Hadamard$ στο πρώτο $qubit$ μας δίνει το εξής:
+
+\begin{align}
+  \vert \psi_3 \rangle = (-1)^{f(0)} \vert 0 \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{align}
+
+Αν όμως η $f$ είναι ισορροπημένη, τότε έχουμε:
+\begin{align}
+  \vert \psi_2 \rangle = (-1)^{f(0)}(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{align}
+και άρα η τελευταία πύλη μας δίνει:
+
+\begin{align}
+  \vert \psi_3 \rangle = (-1)^{f(0)} \vert 1 \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{align}
+
+Προσπαθώντας να γενικοποιήσουμε λίγο τον αλγόριθμο του Deutsch, αρχικά θα πρέπει να θυμόμαστε ότι η $U_f: \vert x \rangle \vert y \rangle \rightarrow \vert x \rangle \vert y \oplus f(x) \rangle$, μπορεί να αντιμετωπιστεί ως ένας $single-qubit operator \widehat(U_{f(x)})$ του οποίου η επίδραση στο δεύτερο $qubit$ εξαρτάται από την κατάσταση του πρώτου $qubit$.
+Η κατάσταση $(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})$ είναι μια "ιδιοκατάσταση" $(eigenstate)$ της $\widehat(U_{f(x)})$ με ιδιοτιμή την $(-1)^{f(x)}$. Κωδικοποιώντας αυτές τις ιδιοτιμές με βάση το $qubit$ ελέγχου, δηλαδή το πρώτο $qubit$ μπορούμε να προσδιορίσουμε το $f(0) \oplus f(1)$, προσδιορίζοντας τους σχετικούς συντελεστές φάσης ανάμεσα στα $\vert 0 \rangle$ και $\vert 1 \rangle$. Η διάκριση μεταξύ των $(\frac{\vert 0 \rangle + \vert 1 \rangle}{\sqrt{2}})$ και $(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})$ γίνεται με την πύλη $Hadamard$~\cite{Kaye:2007:IQC:1206629}.
+
+Κάτι άλλο που θα πρέπει να τονίσουμε είναι η δράση της πύλης $CNOT$. Όταν ο καταχωρητής αποτελείται από δυο $qubits$ οπως στην περίπτωση του αλγόριθμου του $Deutsch$, τότε η $CNOT$, δεν επηρεάζει την κατάσταση του πρώτου $qubit$, αλλα επιδρά στην κατάσταση του δεύτερου \textbf(εάν) το πρώτο βρίσκεται στην κατάσταση $\vert 1 \rangle$~\cite{Nakahara:2008}.
 
 
+% Επομένως στο πρώτο στάδιο του αλγορίθμου, ο κβανικτός καταχωρητής βρίσκεται στην κατάσταση ας την ονομάσουμε $q_1$.
 
+% \begin{align*}
+%   \vert q_1 \rangle = \vert 01 \rangle = \begin{bmatrix}
+%     0 \\
+%     1\\
+%     0\\
+%     0\\
+% \end{bmatrix}
+% \end{align*}
+%
+%
+% Αμέσως μετά και πριν εφαρμοστεί η $U_f$, επιδρούν οι δύο κβαντικές πύλες $H$ και το τανυστικό γινόμενο καθώς και η νέα κατάσταση του καταχωρητή είναι:
+%
+% \begin{flalign*}
+%   \vert q_2 \rangle = (H \oplus H) \vert q_1 \rangle &= (H \oplus H) \vert 01 \rangle =&&\\
+%   &= \begin{bmatrix}
+%     \frac{1}{2} &\frac{1}{2}  &\frac{1}{2}  &\frac{1}{2}\\
+%     \frac{1}{2} &-\frac{1}{2} &\frac{1}{2}  &-\frac{1}{2}\\
+%     \frac{1}{2} &\frac{1}{2}  &-\frac{1}{2} &-\frac{1}{2}\\
+%     \frac{1}{2} &-\frac{1}{2} &-\frac{1}{2} &\frac{1}{2}\\
+% \end{bmatrix}
+% \begin{bmatrix}
+%   0\\
+%   1\\
+%   0\\
+%   0\\
+% \end{bmatrix}=
+% \begin{bmatrix}
+%   \frac{1}{2}\\
+%   -\frac{1}{2}\\
+%   \frac{1}{2}\\
+%   -\frac{1}{2}\\
+% \end{bmatrix}=&&\\
+% &= \frac{1}{2}\vert 00 \rangle - \frac{1}{2}\vert 10 \rangle + \frac{1}{2} \vert 10 \rangle - \frac{1}{2} \vert 11 \rangle=&&\\
+% &=\frac{1}{2}(\vert 00 \rangle - \vert 01 \rangle + \vert 10 \rangle - \vert 11 \rangle)
+% \end{flalign*}
 
 \section{\tl{Deutsch-Jozsa Algorithm}}
 
