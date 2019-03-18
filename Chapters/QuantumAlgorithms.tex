@@ -220,7 +220,7 @@
 \\
 \includegraphics[width=10cm]{figures/DeutschAlgo.png}\\
 \\
-Ας δούμε λίγο επιγραμματικά τον αλγόριθμο. Ο στόχος του αλγορίθμου δεν είναι να υπολογίσουμε όλες τις ξεχωριστές τιμές της $f(x)$, αλλά να ορίσουμε την τιμή της $f(0) \oplus f(1)$. Όπως είπαμε ξεκινάμε περίπου όπως στο παράδειγμα για τον κβαντικό παραλληλισμό. Αρχικά η κατάσταση του καταχωρητή	είναι $\vert 01 \rangle$. Στη συνέχεια δρουν οι δύο πύλες $Hadamard$. Μετά ξεκινάει ο συνδυασμός κβαντικών πυλών $U_f$ και ακολουθεί η πύλη στο πρώτο $qubit$. Μετράμε την κατάσταση του πρώτου $qubit$. Αν είναι στην κατάσταση $\vert 0 \rangle$, τότε η $f(x)$ είναι σταθερή ενώ αν βρεθεί στην κατάσταση $\vert 1 \rangle$ η $f(x)$ είναι ισορροπημένη~\cite{Bellac:2006:SIQ:1202004}.
+Ας δούμε λίγο επιγραμματικά τον αλγόριθμο. Ο στόχος του αλγορίθμου δεν είναι να υπολογίσουμε όλες τις ξεχωριστές τιμές της $f(x)$, αλλά να ορίσουμε την τιμή της $f(0) \oplus f(1)$. Όπως είπαμε ξεκινάμε περίπου όπως στο παράδειγμα για τον κβαντικό παραλληλισμό. Αρχικά η κατάσταση του καταχωρητή	είναι $\vert 01 \rangle$. Στη συνέχεια δρουν οι δύο πύλες $Hadamard$. Μετά ξεκινάει ο συνδυασμός κβαντικών πυλών $U_f$ και ακολουθεί η πύλη στο πρώτο $qubit$. Μετράμε την κατάσταση του πρώτου $qubit$. Αν είναι στην κατάσταση $\vert 0 \rangle$, τότε η $f(x)$ είναι σταθερή~\cite{Gudder2000-GUDUZA} ενώ αν βρεθεί στην κατάσταση $\vert 1 \rangle$ η $f(x)$ είναι ισορροπημένη~\cite{Bellac:2006:SIQ:1202004}.
 
 Ας δούμε λίγο πιο αναλυτικά τη λειτουργία του αλγορίθμου. Αρχικά δημιουργώντας την κβαντική εκδοχή του κυκλώματατος για την $f$, μπορούμε να δώσουμε κβαντικά $qubits$ σαν είσοδο. Επίσης έχουμε ορίσει την $U_f$ τέτοια ώστε αν θέσουμε το δεύτερο $qubit$ στην κατάσταση $\vert y \rangle = \vert 0 \rangle$, τότε το πρώτο $qubit$ που είναι στην κατάσταση $\vert x \rangle = \vert 0 \rangle$ θα δώσει $\vert 0 \oplus f(0) \rangle = \vert f(0) \rangle$ στο δεύτερο $qubit$ και αν έχουμε $\vert x \rangle = \vert 1 \rangle$ τότε το πρώτο $qubit$ θα μας δώσει
 $\vert f(1) \rangle$. Βέβαια τα $qubits$ εισόδου δεν είναι απαραίτητο να είναι σε μια μόνο κατάσταση, αλλά μπορεί να βρίσκονται σε μια υπέρθεση των $\vert 0 \rangle$ και $\vert 1 \rangle$. Κρατώντας το δεύτερο $qubit$ στην κατάσταση $\vert y \rangle = \vert 0 \rangle$, θέτουμε το πρώτο $qubit$ σαν την υπέρθεση των δυο καταστάσεων, άρα:
@@ -292,6 +292,13 @@ $\vert f(1) \rangle$. Βέβαια τα $qubits$ εισόδου δεν είνα�
 
 Κάτι άλλο που θα πρέπει να τονίσουμε είναι η δράση της πύλης $CNOT$. Όταν ο καταχωρητής αποτελείται από δυο $qubits$ οπως στην περίπτωση του αλγόριθμου του $Deutsch$, τότε η $CNOT$, δεν επηρεάζει την κατάσταση του πρώτου $qubit$, αλλα επιδρά στην κατάσταση του δεύτερου \textbf(εάν) το πρώτο βρίσκεται στην κατάσταση $\vert 1 \rangle$~\cite{Nakahara:2008}.
 
+Συνοψίζοντας ο αλγόριθμος του $Deutsch$ μας δίνει λύση στο εξής:
+
+\begin{tcolorbox}{\selectlanguage{english}The Deutsch Problem\\}
+  \textbf{\selectlanguage{english}Input:} \selectlanguage{greek}Ένα μαύρο κουτί ($black box$) για τον υπολογισμό της άγνωστης συνάρτησης $f: {0,1} \rightarrow {0,1}$\\
+  \textbf{\selectlanguage{english}Problem:} \selectlanguage{greek}Προσδιόρισε την τιμή της $f(0) \oplus f(1)$ κάνοντας ερωτήματα ($queries$) στην $f$
+\end{tcolorbox}
+
 
 % Επομένως στο πρώτο στάδιο του αλγορίθμου, ο κβανικτός καταχωρητής βρίσκεται στην κατάσταση ας την ονομάσουμε $q_1$.
 
@@ -332,6 +339,60 @@ $\vert f(1) \rangle$. Βέβαια τα $qubits$ εισόδου δεν είνα�
 % \end{flalign*}
 
 \section{\tl{Deutsch-Jozsa Algorithm}}
+
+Ο αλγόριθμος που θα δούμε τώρα αποτελεί τη λύση σε ένα πρόβλημα που είναι γενίκευση του προβλήματος που είδαμε στον αλγόριθμο του $Deutsch$. Ο αλγόριθμος έχει ακριβώς την ίδια δομή και δέχεται μια άγνωστη συνάρτηση $f$ που αυτή τη φορά είναι της μορφής:
+
+\begin{align}
+  f: {0,1}^n \rightarrow {0,1}
+\end{align}
+
+Επίσης η $f$, μπορεί να είναι είτε $constant$ (σταθερή για κάθε $x$) είτε $balanced$ (ισορροπημένη $f(x) = 0$ για τα μισά ακριβώς $x$, $f(x) = 1$ για τα υπόλοιπα $x$). Το ζητούμενο εδώ είναι να αποφασίσουμε αν τι είναι η $f$.
+
+Ακολουθώντας την ίδια λογική που ακολουθήσαμε και στον προηγούμενο αλγόριθμο, θα ορίσουμε την κβαντική διαδικασία ως εξής:
+
+\begin{align*}
+  U_f: \vert x \rangle \vert y \rangle \rightarrow \vert x \rangle \vert y \otimes f(x) \rangle
+\end{align*}
+
+Το κύκλωμα φαίνεται παρακάτω:
+
+\includegraphics[width=10cm]{figures/DeutschJosza}
+
+Σε σχέση με τον αλγόριθμο του $Deutsch$, εδώ αντί για μια απλή $1-qubit$ πύλη $Hadamard$, έχουμε $n 1-qubit$ πύληες $Hadamard$ και συμβολίζεται $H^{\oplus n}$. Χρησιμοποιούμε το συμβολισμό $\vert 0 \rangle^{\otimes n}$ ή $\vert \textbf{0} \rangle$ για την κατάσταση που είναι $tensor product$ από $n qubits$ το καθένα στην κατάσταση $\vert 0 \rangle$.
+
+Ακολουθούμε λοιπόν την πορεία του κυκλώματατος.
+Αρχική κατάσταση
+
+\begin{align}
+  \vert \psi_0 \rangle = \vert 0 \rangle^{\oplus n}(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{align}
+
+Υπολογίζοντας τη δράση ενός $n-qubit Hadamard$ μετασχηματισμού στην κατάσταση $\vert 0 \rangle^{\oplus n}$
+
+\begin{align}
+  H^{\oplus n} \vert 0 \rangle^{\oplus 0} = (\frac{1}{\sqrt{2}})^n \underbrace{(\vert 0 \rangle + \vert 1 \rangle) \otimes (\vert 0 \rangle + \vert 1 \rangle) \otimes ... \otimes(\vert 0 \rangle + \vert 1 \rangle)}_{n}
+\end{align}
+
+Και εξάγοντας το $tensor product$ μπορεί να γραφτεί σαν
+
+\begin{align}
+  H^{\otimes n} \vert 0 \rangle^{\otimes n} = \frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} \vert x \rangle
+\end{align}
+
+Αμέσως μετά την πρώτη $H^{\otimes n}$ ο αλγόριθμος είναι
+
+\begin{align}
+  \vert \psi_1 \rangle = \frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} \vert n \rangle \frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}
+\end{align}
+
+Η εγγραφή στον καταχωρητή είναι σε μια ισόβαρη υπέρθεση όλων των πιθανών $n-bit string$ εισόδου. Τώρα δρα η $U_f$
+
+\begin{flalign}
+  \vert \psi_2 \rangle &= \frac{1}{\sqrt{2^n}}U_f(\sum_{x \epsilon {0,1}^n}\vert x \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})) =&&\\
+&= \frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} (-1)^{f(x)} \vert x \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{flalign}
+
+
 
 \section{\tl{Simon's Algorithm}}
 
