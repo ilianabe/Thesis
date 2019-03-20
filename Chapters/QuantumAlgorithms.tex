@@ -392,9 +392,76 @@ $\vert f(1) \rangle$. Βέβαια τα $qubits$ εισόδου δεν είνα�
 &= \frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} (-1)^{f(x)} \vert x \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
 \end{flalign}
 
+Η εγγραφή στον καταχωρητή είναι σε μια ισόβαρη υπέρθεση όλων των πιθανών $n-bit string$ εισόδου. Τώρα δρα η $U_f$
 
+\begin{flalign}
+  \vert \psi_2 \rangle &= \frac{1}{\sqrt{2^n}}U_f(\sum_{x \epsilon {0,1}^n}\vert x \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})) =&&\\
+&= \frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} (-1)^{f(x)} \vert x \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
+\end{flalign}
+
+To $(-1)^{f(x)}$ είναι η μετατόπιση της φάσης, το οποίο έχει συνδεθεί με το πρώτο $qubit$.
+
+Στη συνέχεια θα δούμε πως επιδρά η $n-οστή$ πύλη $Hadamard$ στο $n-qubit$ βασικής κατάστασης $\vert x \rangle$.
+
+\begin{flalign}
+  H^{\otimes n} \vert x \rangle &= H^{\otimes n}(\vert x_1 \rangle \vert x_2 \rangle ... \vert x_n \rangle)=&&\\
+  &= H\vert x_1 \rangle H \vert x_2 \rangle...H \vert x_n \rangle=&&\\
+  &= \frac{1}{\sqrt{2}}(\vert 0 \rangle + (-1)^{x_1} \vert 1 \rangle)\frac{1}{\sqrt{2}}(\vert 0 \rangle + (-1)^{x_2} \vert 1 \rangle)...\frac{1}{\sqrt{2}}(\vert 0 \rangle + (-1)^{x_n} \vert 1 \rangle)=&&\\
+  &= \frac{1}{\sqrt{2}} \sum_{z_1z_2...z_n \epsilon {0,1}^n}(-1)^{x_1 z_1+...+x_n z_n}\vert z_1 \rangle \vert z_2 \rangle ... \vert z_n \rangle
+\end{flalign}
+
+Το τελικό αποτέλεσμα μετά την επίδραση της $n-οστής$ πύλης $Hadamard$:
+\begin{flalign}
+    \vert \psi_3 \rangle &= (\frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} (-1)^{f(x)} \frac{1}{\sqrt{2^n}} \sum_{z \epsilon {0,1}^n} (-1)^{xz} \vert z \rangle)(\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}) =&&\\
+    &= \frac{1}{\sqrt{2^n}} \sum_{z \epsilon {0,1}^n} (\sum_{x \epsilon {0,1}^n} (-1)^{f(x)+xz})\vert z \rangle \frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}
+\end{flalign}
+
+Και στις δύο παραπάνω εκφράσεις, το $xz$ ορίζει το εσωτερικό γινόμενο των $x, z, modulo 2$.
+Στο τέλος του αλγορίθμου, η μέτρηση του πρώτου καταχωρητή είναι σε υπολογιστική βάση και για να το δούμε καλυτερα, θεωρούμε το τελικό πλάτος του $\vert z \rangle =
+\vert 0 \rangle^{\otimes n}$ στον πρώτο καταχωρητή κατάστασης $\vert \psi_3 \rangle$, το οποίο είναι:
+
+\begin{align}
+  \frac{1}{2^n} \sum_{x \epsilon {0,1}^n} (-1)^{f(x)}
+\end{align}
+
+Και τώρα έχουμε πάλι δύο περιπτώσεις.
+
+\begin{enumerate}
+  \item Η $f$ είναι $constant$, άρα το πλάτος του $\vert 0 \rangle^{\otimes n}$ είναι είτε +1 είτε -1 και επομένως η μέτρηση του πρώτου καταχωρητή είναι σίγουρο οτι θα μας επιστρέψει όλα τα 0.
+  \item Η $f$ είναι $balanced$, άρα οι θετικές και αρνητικές συνιστώσες των πλατών αναιρούνται και το συνολικό πλάτος είναι $\vert 0 \rangle^{\otimes n} = 0$. Άρα η μέτρηση στον πρώτο καταχωρητή είναι βέβαιο ότι θα μας επιστρέψει όλες τις μη μηδενικές τιμές.
+\end{enumerate}
+
+Βλέπουμε επομένως ότι είναι πολύ εύκολο ανάλογα με τη μέτρηση του πρώτου καταχωρητή να κρίνουμε αν η $f$ είναι $balanced ή constant$.
+
+Ένας κλασσικός αλγόριθμος για να δώσει απάντηση στο πρόβλημα του $Deutsch-Josza$ χρειάζεται $2^{n-1} + 1 queries$ στην χειρότερη περίπτωση. Ένας πιθανοτικός κλασσικός αλγόριθμος θα μπορούσε να το λύσει με $\frac{1}{3}$ πιθανότητα λάθους χρησιμοποιώντας 2 μόνο $queries$. Η πιθανότητα λάθους μειώνεται στο $\frac{1}{2^n}$ με $n+1 queries$.
+Βλέπουμε ότι η διαφορά μεταξύ της πολυπλοκότητας ενός κλασσικού πιθανοτικού $query$ και της πολυπλοκότητας ενός κβαντικού υπολογιστικού $query$, είναι σταθερή στην περίπτωση ενλος σταθερού $error$ και μετατρέπεται σε γραμμική διαφορά στην περίπτωση ενός μικρού εκθετικού $error$~\cite{Kaye:2007:IQC:1206629}.
+
+Τελικά συνοψίζοντας τον αλγόριθμο~\cite{Nielsen:2011:QCQ:1972505}:
+\begin{tcolorbox}
+\selectlanguage{english}\textbf{Algorithm: Deutsch-Josza}\\
+\textbf{Inputs:}\selectlanguage{greek}Ένα $black box U_f$ το οποίο εφαρμόζει τον εξής μετασχηματισμό $\vert x \rangle \vert y \rangle \rightarrow \vert x \rangle \vert y \oplus f(x) \rangle$ για κάθε $x \epsilon {0,...,2^n -1}$ και $f(X) \epsilon {0,1}$. Η $f(x)$ μπορεί να είναι είτε $constant$ είτε $balanced$ για όλες τις τιμές του $x$.\\
+\selectlanguage{english} \textbf{Outputs:} \selectlanguage{greek} 0 ανν η $f$ είναι $constant$.\\
+\selectlanguage{english} \textbf{Procedure:}
+  \begin{enumerate}
+    \item $\vert 0 \rangle^{\otimes n} \vert 1 \rangle$  initialize state
+    \item $\rightarrow \frac{1}{\sqrt{2^n}} \sum_{x=0}^{2^n -1} \vert x \rangle [\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}]$   create superposition using Hadamard gates
+    \item $\rightarrow \sum_{x} (-1^f(x))\vert x \rangle [\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}]$   calculate function f using $U_f$
+    \item |$\rightarrow \sum_{z} \sum_{x} \frac{(-1)^{x z + f(x)}\vert z \rangle}{\sqrt{2^n}} [\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}]$ perform Hadamard Transform
+    \item $\rightarrow z$ measure to obtain final output z
+  \end{enumerate}
+\end{tcolorbox}
 
 \section{\tl{Simon's Algorithm}}
+
+
+Ο αλγόριθμος του $Simon$ είναι λίγο διαφορετικός από τους αλγορίθμους που είδαμε μέχρι τώρα και λύνει ένα λίγο διαφορετικό πρόβλημα. Η γενική ιδέα είναι η εξής:
+
+\begin{tcolorbox}
+  \selectlanguage{english} \textbf{Simon's Problem}\\
+  \textbf{Input:}\selectlanguage{greek} Ένα $black box$ για τον υπολογισμό της άγνωστης συνάρτησης $f: {0,1}^n \rightarrow X$, όπου το $X$ είναι ένα πεπερασμένο σύνολο.\\
+  \selectlanguage{english}\textbf{Promise:} \selectlanguage{greek} Υπάρχει $string s = s_1s_2...s_n$ τέτοιο ώστε $f(x) = f(y)$ ανν $x = y$ ή $x = y \oplus s$.\\
+  \selectlanguage{english}\textbf{Problem:} \selectlanguage{greek} Βρίσκουμε το $string s$ κάνοντας "ερωτήματα" στην $f$
+\end{tcolorbox}
 
 \section{\tl{Grover's Algorithm}}
 
