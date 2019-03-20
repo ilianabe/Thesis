@@ -463,6 +463,86 @@ To $(-1)^{f(x)}$ είναι η μετατόπιση της φάσης, το οπ
   \selectlanguage{english}\textbf{Problem:} \selectlanguage{greek} Βρίσκουμε το $string s$ κάνοντας "ερωτήματα" στην $f$
 \end{tcolorbox}
 
+% \begin{theo}
+%   Κάθε κλασσικός αλγόριθμο που λύνει αυτό το πρόβλημα με πιθανότητα το λιγότερο $\frac{2}{3}$ για κάθε τέτοια $f$, πρέπει να
+% \end{theo}\
+
+Στον προηγούμενο αλγόριθμο, είδαμε σε έναν $n-qubit Hadamard$ μετασχηματισμό ισχύει το εξής:
+\begin{align}
+  H^{\otimes n} \vert 0 \rangle = \frac{1}{\sqrt{2^n}} \sum_{z \epsilon {0,1}^n} (-1)^{x z} \vert z \rangle
+\end{align}
+
+Αν όμως εφαρμόσουμε το $H^{\oplus n}$ σε μια υπέρθεση με δύο βασικές καταστάσεις όπως $\vert 0 \rangle + \vert s \rangle$ έχουμε
+\begin{flalign}
+  H^{\oplus n} \vert x \rangle (\frac{1}{\sqrt{2}}\vert 0 \rangle + \frac{1}{\sqrt{2}} \vert s \rangle) &= \frac{1}{\sqrt{2^{n+1}}} \sum_{z \epsilon {0,1}^n} \vert z \rangle + \frac{1}{\sqrt{2^{n+1}}} \sum_{z \epsilon {0,1}^n} (-1)^{s z} \vert z \rangle =&&\\
+  &= \frac{1}{\sqrt{2^{n+1}}} \sum_{z \epsilon {0,1}^n} (1 + (-1)^{s z}) \vert z \rangle
+\end{flalign}
+
+Άρα έχουμε ότι:
+\begin{align}
+  H^{\oplus n}(\frac{1}{\sqrt{2}}\vert x \rangle + \frac{1}{\sqrt{2}} \vert y \rangle) = \frac{1}{\sqrt{2^{n-1}}} \sum_{z \epsilon {s}\bot} \vert z \rangle
+\end{align}
+
+\includegraphics[width=11cm]{figures/Simons}\\
+Το κύκλωμα του αλγορίθμου.
+
+Τα βήματα του αλγορίθμου περιληπτικά κια θεωρώντας ότι έχουμε το αντιστρέψιμο $black box$ για την υλοποίηση της $f$
+\begin{align*}
+  U_f: \vert x \rangle \vert b \rangle \rightarrow \vert x \rangle \vert b \otimes f(x) \rangle
+\end{align*}
+
+\begin{tcolorbox}
+  \selectlanguage{english}\textbf{Algorithm for Simon's Problem}
+  \begin{enumerate}
+    \item Set a counter i = 1
+    \item Prepare $\frac{1}{\sqrt{2^n}} \sum_{x \epsilon {0,1}^n} \vert x \rangle \vert 0 \rangle$
+    \item Apply $U_f$, to produce the state $\sum_{x \epsilon {0,1}^n} \vert x \rangle \vert f(x) \rangle$
+    \item Measure the second register
+    \item Apply $H^{\otimes n}$ to the first register
+    \item Measure the first register and record the value $w_i$
+    \item If the dimension of the span of ${w_i}$ equals n-1, then go to Step 8, otherwise increment i and got to Step 2
+    \item Solve the linear equation $W_s^T = 0^T$ and let s to be the unique non-zero solution
+    \item Output s
+  \end{enumerate}
+\end{tcolorbox}
+
+Επίσης ο αναμενόμενος αριθμός δειγμάτων από το $s \bot$ μέχρι να ολοκληρωθεί ο αλγόριθμος, είναι λιγότερα από $m + 1 = n$
+Και οδηγούμαστε στο παρακάτω θεώρημα:
+\selectlanguage{greek}
+\begin{theo}
+  Ο αλγόριθμος μας οδηγεί στην εύρεση τα κρυμμένα $string$ στο πρόβλημα του $Simon$. Ο αναμενόμενος αριθμός των εκτιμήσεων της $f$ μέχρι να ολοκληρωθεί ο αλγόριθμος είναι λιγότερο από $n$ και ο αναμενόμενος αριθμός από άλλες στοιχειώδεις πύλες είναι στο $O(n^3)$
+\end{theo}
+
+Εάν θέλουμε να γενικεύσουμε το πρόβλημα του $Simon$ μπορούμε να το δούμε έτσι:
+\begin{tcolorbox}
+\selectlanguage{english}\textbf{Generalized Simon's Problem}\\
+\textbf{Input:}\selectlanguage{greek}Ένα $black box U_f$ που υλοποιεί την $f: {0,1}^n \rightarrow X$, όπου το $X$ είναι κάποιο πεπερασμένο σύνολο.\\
+\selectlanguage{english}\textbf{Promise:}$f(x) = f(y)$ \selectlanguage{greek} ανν $x - y \epsilon S$ για κάποιο υποσύνολο $S \leq Z_2^n$\\
+\selectlanguage{english}\textbf{Problem:}\selectlanguage{greek} Η εύρεση μιας βάσης $s_1,...,s_m$ για κάποιο $S$, όπου $m$ η διάσταση του υποσυνόλου $S$
+\end{tcolorbox}
+
+Ο αλγόριθμος που επιλύει το γενικευμένο πρόβλημα του $Simon$ είναι περίπου ο ίδιος με το απλό πρόβλημα. Σημαντικό εδώ είναι ότι αν $S = {0, x_1,...,x_{2^{m-1}}}$ είναι ένα υποσύνολο διάστασης $m$ του $Z_2^n = {0,1}^n$ πάνω στο $Z_2$, τότε το σύνολο ${0,1}^n$ μπορεί να χωριστεί σε δύο $2^{n-m}$ υποσύνολα της μορφής ${y, y \oplus x_1, y \oplus x_2,..., y \oplus x_{2^{m-1}}}$, το οποίο αναφέρεται και ως $y + S$. Τότε στο 3ο βήμα μπορούμε να δούμε ότι έχουμε την κατάσταση
+\begin{align}
+  \sum_{x \epsilon {0,1}^n} \vert x \rangle \vert f(x) \rangle = \frac{1}{\sqrt{2^{n-m}}} \sum_{y \epsilon I} \vert y + S \rangle \vert f(y) \rangle
+\end{align}
+όπου το $I$ είναι το υποσύνολο του ${0,1}^n$ το οποίο αντιπροσωπεύεται από κάθε ένα από τα $2^{n-m}$ υποσύνολα.
+Έτσι αφού μετρήσουμε τον δεύτερο καταχωρητή στο βήμα 4, ο πρώτος καταχωρητής είναι σε μια κατάσταση της μορφής $\vert y + S \rangle$ για ένα τυχαίο $y$. Στη συνέχεια μετά τον μετασχηματισμό $Hadamard$ στο βήμα 5, ο πρώτος καταχωρητής περιέχει μια ομοειδή υπέρθεση από στοιχεία του $S^\bot$, που σημαίνει ότι στο 6ο βήμα η μέτρηση στον πρώτο καταχωρητή μας επιστρέφει μια τιμή $w_i$ σε ομοιόμορφη δειγματοληψία από ένα τυχαίο $S^\bot$. Το μόνο τμήμα που αλλάζει είναι τα τελευταία τρία στάδια του αλγορίθμου.
+Αν γνωρίζουμε τη διάσταση $m$ του $S$, τότε ξέρουμε ότι το $S^\bot$ έχει διαστάσεις $n - m$ και μπορούμε να αντικαταστήσουμε τα τελευταία 3 βήματα του αλγορίθμου με τα εξής:
+\selectlanguage{english}
+\begin{enumerate}
+  \setcounter{enumi}{7}
+  \item If the dimension of the span of ${w_i}$ equals n - m, then go to Step 8, otherwise increment $i$ and go to Step 2.
+  \item Solve the linear equation $W_S^T = 0^T$ and let $s_1, s_2,..., s_m$ be generators of the solution space.
+  \item Output $s_1, s_2,..., s_m$
+\end{enumerate}
+\selectlanguage{greek}
+Και έχουμε το εξής θεώρημα:
+\begin{theo}
+  Ο "νέος" αλγόριθμος λύνει το πρόβλημα του $Simon$ με γνωστή τη διάσταση $m$ του $S$. Ο αναμενόμενος αριθμός αξιολογήσεων της $f$ στην εκτέλεση του αλγορίθμου είναι μικρότερη από $n - m + 1$ και $O(n^3)$ στοιχειώδεις διαδικασίες.
+\end{theo}
+
+Όταν δεν γνωρίζουμε το $m$, γνωρίζουμε ότι επαρκούν $m + 4$ δείγματα για τη δημιουργία του $S^\bot$ με πιθανότητα το λιγότερο $\frac{2}{3}$~\cite{Kaye:2007:IQC:1206629}.
+
 \section{\tl{Grover's Algorithm}}
 
 \section{\tl{Quantum Search Algorithms}}
