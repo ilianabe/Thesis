@@ -598,7 +598,7 @@ To $\vert y \rangle$ ονομάζεται $oracle$ $qubit$.
   &= - \vert x \rangle (\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}})
 \end{flalign}
 
-Δεδομένου ότι το $qubit$ του κβανικού $oracle$ δεν μεταβάλλεται σε καμία περίπτωση μπορούμε να το απαλείψουμε από τις δύο παραπάνω σχέσεις και άρα έχουμε:
+Δεδομένου ότι το $qubit$ του κβανικού $oracle$ δεν μεταβάλλεται σε καμία περίπτωση μπορούμε να το απαλείψουμε από τις δύο παραπάνω σχέσεις και άρα έχουμε:\\
 $\vert x \rangle \xrightarrow{\text{o}}\left\{\begin{array}{rr}
    + \vert x \rangle, &\vert x \rangle not the selected element \\
    - \vert x \rangle, &\vert x \rangle the selected element
@@ -617,4 +617,196 @@ $\vert x \rangle \xrightarrow{\text{o}}\left\{\begin{array}{rr}
    \right.$
 
 Συνοψίζοντας λοιπόν όλα τα παραπάνω βλέπουμε ότι το κβαντικό $oracle$ δρα στις βασικές καταστάσεις $\vert x \rangle$. Αν η βασική κατάσταση αντιστοιχεί στο στοιχείο που ψάχνουμε τότε της αλλάζει το πρόσημο, αλλιώς την αφήνει όπως είναι.
-\section{\tl{Quantum Search Algorithms}}
+
+\subsection{Alforithm's Procedure}
+Ο αλγόριθμος ξεκινάει με τον υπολογιστή να βρίσκεται στην κατάσταση $\vert 0 \rangle^{\otimes n}$ και στη συνέχεια εφαρμόζεται ο μετασχηματισμός $Hadamard$ για να θέσει τον υπολογιστή σε μια υπέρθεση της μορφής:
+\begin{align}
+  \vert s \rangle = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \vert x_i \rangle
+\end{align}
+Στη συνέχεια εφαρμόζονται επαναλαμβανόμενες υπορουτίνες που είνα γνωστές ως $Grover$ $iteration$ ή $Grover$ $operator$ και συμβολίζεται με $G$. Θα μπορούσαμε να αναλύσουμε την υπορουτίνα αυτή σε τέσσερα απλά προβλήματα
+\begin{enumerate}
+  \item Εφαρμόζουμε το $oracle$ $O$
+  \item Εφαρμόζουμε τον μετασχηματισμό $Hadamard$ της μορφής $H^{\oplus n}$
+  \item Κάνουμε μια μετατόπιση ($shift$) της φάσης όπου κάθε κατάσταση εκτός της $\vert 0 \rangle$ μετατοπίζεται κατά -1 $\vert x \rangle \rightarrow -(-1)^{\delta_{x0}} \vert x \rangle$
+  \item Εφαρμογή του μετασχηματισμού $Hadamard$~\cite{Nielsen:2011:QCQ:1972505}
+\end{enumerate}
+
+Ας πάμε πάλι στην αρχική κατάσταση. Μια μέτρηση του καταχωρητή θα μας έδινε ακριβώς τα ίδια αποτελέσματα με την κλασσική περίπτωση. Δηλαδή θα είχαμε το επιθυμητό $\vert x_i \rangle$ με πιθανότητα $\frac{1}{\sqrt{2}}$. Ο στόχος μας είναι να σχηματίσουμε την κατάσταση $\vert s \rangle$ με κατάλληλο τρόπο, ώστε να αυξήσουμε την πιθανότητα αυτή. Αυτό γίνεται με το να αυξηθεί ο συντελεστής του $\vert x_i \rangle$ όσο το δυνατόν πιο κοντά στη μονάδα και ταυτόχρονα να μειωθούν οι συντελεστές των υπολοίπων καταστάσεων.
+Όπως είπαμε η $\vert s \rangle$ είναι η υπέρθεση των $N$ βασικών καταστάσεων με $N = 2^n$
+και ψάχνουμε για το στοιχείο που αντιστοιχεί στην $\vert x_i \rangle$. Θα θέσουμε $b=1$ όπου $b$ είναι ο αριθμός επαναλήψεων των επόμενων βημάτων.
+\begin{enumerate}
+  \item Εφαρμογή του τελεστή $\hat{O} = \hat{I} - 2\vert x_i \rangle \rangle x_i \vert$ στον κβαντικό καταχωρητή
+  \item Εφαρμογή του τελεστή $\hat{G} = 2 \vert s \rangle \rangle s \vert - \hat{I}$ στον κβαντικό καταχωρητή.
+\end{enumerate}
+Αν ο αριθμός $b$ είναι μεγαλύτερος ή περίπου ίσος με $((\frac{\pi}{4})\sqrt{N}) - 0.5$ τότε μετράμε την κατάσταση του καταχωρητή και είναι σχεδόν βέβαιο ότι θα είναι η ζητούμενη. Αν όχι τότε ξαναγυρνάμε στο 1ο βήμα.
+
+Στα παραπάνω βήματα, χρησιμοποιήσαμε το $\hat{I}$. Οι κβαντικές πύλες, επί της ουσίας είναι τελεστές του χώρου $Hilbert$ που δρουν σε $qubits$ και σε κβαντικούς καταχωρητές αλλάζοντας την κατάσταση τους. Από τη στιγμή λοιπόν που κάθε κβαντικό κύκλωμα είναι τελεστής του χώρου $Hilbert$, αυτόματα συμπεραίνουμε ότι και το $oracle$ είναι τελεστής του χώρου $Hilbert$.
+Για το στοιχείο που ψάχνουμε, το $oracle$ είναι
+\begin{align*}
+  \hat{O} = \hat{I} - 2\vert x_i \rangle \rangle x_i \vert
+\end{align*}
+όπου $\hat{I}$ είναι ο τελεστής που αντιστοιχεί στην πύλη αδράνειας και όταν δρα δεν αλλάζει καμία κατάσταση.
+Η μαθηματική αναπαράσταση του αλγορίθμου, θα μπορούσε να είναι η εξής:
+\begin{tcolorbox}
+  \selectlanguage{english}
+  \textbf{Algorithm: Quantum Search}\\
+  \textbf{Inputs:} (1) A black box oracle $O$ which performs the transformation $O\vert x \rangle \vert q \rangle = \vert x \rangle \vert q \oplus f(x) \rangle$ where $f(x) = 0$ for all $0 \leq x \leq 2^n$ except $x_0$ for which $f(x_0) = 1$\\
+  (2) $n + 1$ qubits in the state $\vert 0 \rangle$\\
+  \textbf{Outputs:} $x_0$\\
+  \textbf{Runtime:} $O(\sqrt{2^n})$ operations. Succeeds with probability $O(1)$\\
+  \textbf{Procedure:}
+  \begin{enumerate}
+    \item $\vert 0 \rangle^{\otimes n} \vert 0 \rangle$   initial state
+    \item $\rightarrow \frac{1}{\sqrt{2^n}} \sum_{x=0}^{2^n-1} \vert x \rangle [\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}]$  apply $H^{\otimes n}$ to the first $n$ qubits, and $HX$ to the last $qubit$
+    \item $\rightarrow [(2\vert s \rangle \rangle s \vert - \hat{I})\hat{O}]^R \sum_{x=0}^{2^n-1} \vert x \rangle [\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}] \approx \vert x_0 \rangle [\frac{\vert 0 \rangle - \vert 1 \rangle}{\sqrt{2}}]$   apply the Grover iteration $R \approx \lceil \frac{\pi \sqrt{2^n}}{4}$ times.
+    \item $\rightarrow x_0$   measure the first $n$ qubits
+  \end{enumerate}
+\end{tcolorbox}
+
+\subsection{Example}
+Ας δούμε τώρα και ένα παράδειγμα του κβαντικού αλγορίθμου του $Grover$. Έστω ότι έχουμε μια μη δομημένη βάση δεδομένων με 4 στοιχεία και θέλουμε να βρούμε το στοιχείο που αντιστοιχεί στην βασική κατάσταση $\vert x_i \rangle = \vert 01 \rangle$.
+Αρχικά θα έχουμε έναν κβαντικό καταχωρητή με 2 $qubits$ και θα ψάξουμε τον αριθμό που αντιστοιχεί στον αριθμό 1, με βάση την κατάσταση του. Θα εκτελέσουμε ένα ένα όλα τα βήματα που είδαμε παραπάνω:\\
+\textbf{Βήμα 1ο}\\
+Αρχίζουμε με τον κβαντικό καταχωρητή στην κατάσταση $\vert 00 \rangle$ και τον θέτουμ σε υπέρθεση βασικών καταστάσεων. Το πλάτος πιθανότητας για κάθε κατάσταση πρέπει να είναι το ίδιο όποτε χρησιμοποιούμε δύο κβαντικές πύλες $H$.
+Άρα θα έχουμε:
+\begin{flalign*}
+  \vert s \rangle &= H \otimes H \vert 00 \rangle = \begin{bmatrix}
+    [\frac{1}{2} & \frac{1}{2} & \frac{1}{2} & \frac{1}{2}\\
+    \frac{1}{2} & -\frac{1}{2} & \frac{1}{2} & -\frac{1}{2}\\
+    \frac{1}{2} & \frac{1}{2} & -\frac{1}{2} & -\frac{1}{2}\\
+    \frac{1}{2} & -\frac{1}{2} & -\frac{1}{2} & \frac{1}{2}]
+  \end{bmatrix}
+  \begin{bmatrix}
+    1\\
+    0\\
+    0\\
+    0
+  \end{bmatrix} = \frac{1}{2}\begin{bmatrix}
+    1\\
+    1\\
+    1\\
+    1
+\end{bmatrix} \Rightarrow &&\\
+&= \frac{1}{2}(\vert 00 \rangle + \vert 01 \rangle + \vert 10 \rangle + \vert 11 \rangle)
+\end{flalign*}
+Άρα έχουμε φέρει τον καταχωρητή στη βασική μορφή υπέρθεσης που θέλουμε. Δεδομένου ότι ψάχνουμε την $\vert 01 \rangle$, θέλουμε να φέρουμε τον καταχωρητή σε τέτοια κατάσταση ώστε ο συντελεστής της $\vert 01 \rangle$ να είναι πολύ κοντά στη μονάδα.\\
+
+\textbf{Βήμα 2ο:}\\
+Τώρα δρα ο τελεστής $\hat{O} = \hat{I} - 2\vert x_i \rangle \rangle x_i \vert$ όπου έχουμε:
+\begin{flalign*}
+  \hat{O} = \hat{I} - 2 \vert x_i \rangle \rangle x_i \vert &= \begin{bmatrix}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0\\
+    0 & 0 & 0 & 1
+\end{bmatrix} - 2 \begin{bmatrix}
+  0\\
+  1\\
+  0\\
+  0
+\end{bmatrix}
+\begin{bmatrix}
+  0 & 1 & 0 & 0
+\end{bmatrix} =&&\\
+&= \begin{bmatrix}
+  1 & 0 & 0 & 0\\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  0 & 0 & 0 & 1
+\end{bmatrix} - 2\begin{bmatrix}
+  0 & 0 & 0 & 0\\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 0 & 0\\
+  0 & 0 & 0 & 0
+\end{bmatrix} =&&\\
+&= \begin{bmatrix}
+  1 & 0 &  0 & 0\\
+  0 & -1 & 0 & 0\\
+  0 &  0 & 1 & 0\\
+  0 &  0 & 0 & -1
+\end{bmatrix}
+\end{flalign*}
+Άρα
+\begin{flalign*}
+  \vert s' \rangle = \hat{O} \vert s \rangle = \frac{1}{2}\begin{bmatrix}
+    1 & 0  & 0 & 0\\
+    0 & -1 & 0 & 0\\
+    0 & 0  & 1 & 0\\
+    0 & 0  & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+  1\\
+  1\\
+  1\\
+  1
+\end{bmatrix} = \frac{1}{2}\begin{bmatrix}
+  1\\
+  -1\\
+  1\\
+  1
+\end{bmatrix} = \frac{1}{2}(\vert 00 \rangle - \vert 01 \rangle + \vert 10 \rangle + \vert 11 \rangle)
+\end{flalign*}
+Και όπως βλέπουμε το πρόσημο της ζητούμενης κατάστασης έχει αλλάξει.\\
+\textbf{Βήμα 3ο}\\
+Τώρα επιδρά ο τελεστής $\hat{G} = 2\vert s \rangle \rangle s \vert - \hat{I}$
+\begin{flalign*}
+  \hat{G} = 2\vert s \rangle \rangle s \vert - \hat{I} &= 2\frac{1}{2}\begin{bmatrix}
+    1\\
+    1\\
+    1\\
+    1
+\end{bmatrix} \frac{1}{2}\begin{bmatrix}
+  1 & 1 & 1 & 1
+\end{bmatrix} - \begin{bmatrix}
+  1 & 0 & 0 & 0\\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  0 & 0 & 0 & 1
+\end{bmatrix} =&&\\
+&= \frac{1}{2} \begin{bmatrix}
+  1 & 1 & 1 & 1\\
+  1 & 1 & 1 & 1\\
+  1 & 1 & 1 & 1\\
+  1 & 1 & 1 & 1
+\end{bmatrix} - \begin{bmatrix}
+  1 & 0 & 0 & 0\\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  0 & 0 & 0 & 1
+\end{bmatrix} =&&\\
+&= \frac{1}{2}\begin{bmatrix}
+  -1 &  1 &  1 &  1\\
+   1 & -1 &  1 &  1\\
+   1 &  1 & -1 &  1\\
+   1 &  1 &  1 & -1
+\end{bmatrix}
+\end{flalign*}
+
+Με τη δράση της $\hat{G}$ το αποτέλεσμα που παίρνουμε είναι:
+\begin{align*}
+  \vert s" \rangle = \hat{G} \vert s' \rangle = \frac{1}{4} \begin{bmatrix}
+    -1 &  1 &  1 &  1\\
+     1 & -1 &  1 &  1\\
+     1 &  1 & -1 &  1\\
+     1 &  1 &  1 & -1
+\end{bmatrix} \begin{bmatrix}
+  1\\
+  -1\\
+  1\\
+  1
+\end{bmatrix} = \frac{1}{4} \begin{bmatrix}
+  0\\
+  4\\
+  0\\
+  0
+\end{bmatrix} = \begin{bmatrix}
+  0\\
+  1\\
+  0\\
+  0
+\end{bmatrix} = \vert 01 \rangle
+\end{align*}
+
+Αν μετρήσουμε λοιπόν την κατάσταση του κβαντικού καταχωρητή, είναι βέβαιο ότι θα βρούμε την κατάσταση $\vert x_i \rangle = \vert 01 \rangle$, όπου ο αριθμός των επαναλήψεων είναι $(\frac{\pi}{4}\sqrt{N}) - 0.5 \cong 1 $
+
+\section{\tl{Summary of Quantum Algorithms}}
