@@ -31,6 +31,7 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{caption}
+\usepackage{hyperref}
 \DeclareCaptionFormat{myformat}{#3}
 \captionsetup[algorithm]{format=myformat}
 \newtheorem*{remark}{Lemma}
@@ -78,6 +79,9 @@
 \renewcommand{\thelemma}{\arabic{chapter}.\arabic{lemma}}
 \renewcommand{\theexample}{\arabic{chapter}.\arabic{example}}
 \renewcommand{\thetheo}{\arabic{chapter}.\arabic{theo}}
+
+\theoremstyle{definition}
+\newtheorem{exmp}{Παράδειγμα}[section]
 
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\To}{\Longrightarrow}
