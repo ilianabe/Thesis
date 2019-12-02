@@ -28,6 +28,7 @@
 
 \usepackage[greek]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage[table,xcdraw]{xcolor}
 
 
 \pagestyle{fancy}
@@ -491,6 +492,8 @@
 	%
 	\pagebreak
 }
+%Colored table
+
 
 \newcommand{\createcdcover}[5]{
 	\cleardoublepage
