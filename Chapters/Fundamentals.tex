@@ -29,42 +29,134 @@ $Hilbert$\cite{Kaye:2007:IQC:1206629}. Σε αντίθεση με τους κλ�
 \subsection{Κβαντικές Πύλες που δρουν σε ένα \tl{qubit}}
 \subsubsection{Κβαντική πύλη αδράνειας}
 Η κβαντική πύλη αδράνειας συμβολίζεται με $I$ και περιγράφεται από έναν τελεστή που ονομάζεται τελεστής αδράνειας. Ο πίνακας της πύλης είναι ο παρακάτω:
+\\
 \begin{flalign*}
   I &= \begin{bmatrix}
     1 & 0\\
     0 & 1
 \end{bmatrix}
 \end{flalign*}
-Η κβαντική πύλη αδράνειας, αφήνει αμετάβλητη την κατάσταση του $qubit$. Οι επιδράσεις της πύλης στις καταστάσεις ενός $qubit$ φαίνονται στον πίνακα:
+Η κβαντική πύλη αδράνειας, αφήνει αμετάβλητη την κατάσταση του $qubit$. Οι επιδράσεις της πύλης στις καταστάσεις ενός $qubit$ φαίνονται στον πίνακα. Στην πρώτη στήλη φαίνονται οι καταστάσεις του $qubits$ πριν την επίδραση της πύλης και στη δεύτερη στήλη φαίνονται οι καταστάσεις τους μετά την επίδραση της πύλης.
 
-\begin{table}[]
+
 \begin{tabular}{lllll}
 \rowcolor[HTML]{C0C0C0}
- &  &  &  &  \\
- &  &  &  &  \\
- &  &  &  &  \\
- &  &  &  &
+ &$\vert q_1 \rangle$  & $\vert q_0 \rangle$ \\
+ &$\vert 0 \rangle$  & $\vert 0 \rangle$ \\
+ &$\vert 1 \rangle$  & $\vert 1 \rangle$ \\
+ &$\vert q \rangle$  & $\vert q \rangle$
 \end{tabular}
-\end{table}
 
-%\arrayrulecolor[HTML]{DB5800}
+\subsubsection{Πύλη Μετατόπισης}
+Ο τελεστής $\Phi$ αντιστοιχεί στον παρακάτω πίνακα:
+\\
+\begin{flalign*}
+  \Phi &= \begin{bmatrix}
+    1 & 0\\
+    0 & e^{i \varphi}
+\end{bmatrix}
+\end{flalign*}
 
-% \begin{tabular}{ |l|p{3cm}|p{3cm}|  }
-% \hline
-% \rowcolor{lightgray} \multicolumn{3}{|c|}{Country List} \\
-% \hline
-% Country Name    or Area Name& ISO ALPHA 2 Code &ISO ALPHA 3 \\
-% \hline
-% Afghanistan & AF &AFG \\
-% \rowcolor{gray}
-% Aland Islands & AX & ALA \\
-% Albania   &AL & ALB \\
-% Algeria  &DZ & DZA \\
-% American Samoa & AS & ASM \\
-% Andorra & AD & \cellcolor[HTML]{AA0044} AND    \\
-% Angola & AO & AGO \\
-% \hline
-% \end{tabular}
+Έστω ένα $qubit$ $\vert q_1 \rangle$, η κατάσταση του οποίου είναι:
+\\
+\begin{align*}
+  \vert q_1 \rangle = \alpha \vert 0 \rangle + b \vert 1 \rangle &= \begin{bmatrix}
+    \alpha \\
+    b
+\end{bmatrix}
+\end{align*}
+
+Μετά την επίδραση της κβαντικής πύλης μετατόπισης, η κατάσταση αλλάζει σε $\vert q_0 \rangle$:
+\begin{align*}
+  \vert q_0 \rangle = \Phi \vert q_1 \rangle
+  &= \begin{bmatrix}
+  1 & 0 \\
+  0 & e^{i \varphi}
+\end{bmatrix}
+\begin{bmatrix}
+  \alpha \\
+  b
+\end{bmatrix}
+= \begin{bmatrix}
+  \alpha\\
+  e^{i \varphi}b
+\end{bmatrix}
+\end{align*}
+Άρα η νέα κατάσταση του $qubit$ είναι $\vert q_0 \rangle = \alpha \vert 0 \rangle + e^{i \varphi} b \vert 1 \rangle$.
+Και ο πίνακας είναι ο εξής:
+\begin{tabular}{lllll}
+\rowcolor[HTML]{C0C0C0}
+ &$\vert q_1 \rangle$  & $\vert q_0 \rangle$ \\
+ &$\vert 0 \rangle$  & $\vert 0 \rangle$ \\
+ &$\vert 1 \rangle$  & $e^{i \varphi}\vert 1 \rangle$ \\
+ &$\alpha \vert 0 \rangle + b \vert 1 \rangle$  & $\alpha \vert 0 \rangle + e^{i \varphi} b \vert 1 \rangle$
+\end{tabular}
+
+\subsubsection{Πύλη \tl{Hadamard}}
+Η κβαντική πύλη $Hadamard$ είναι ίσως η πιο γνωστή κβαντική πύλη, καθώς χρησιμοποιείται σε πολλούς αλγορίθμους.
+\begin{flalign*}
+  H &= \frac{1}{\sqrt{2}}
+  \begin{bmatrix}
+    1 & 1\\
+    1 & -1
+  \end{bmatrix}
+\end{flalign*}
+
+Η δράση της πύλης είναι η εξής:
+\begin{align*}
+  H \vert 0 \rangle &=
+  \begin{bmatrix}
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}\\
+    \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 \\
+    0
+  \end{bmatrix}
+  = \begin{bmatrix}
+    \frac{1}{\sqrt{2}}\\
+    \frac{1}{\sqrt{2}}
+  \end{bmatrix}
+  = \frac{1}{\sqrt{2}} \vert 0 \rangle + \frac{1}{\sqrt{2}} \vert 1 \rangle = \frac{1}{\sqrt{2}}(\vert 0 \rangle + \vert 1 \rangle)
+\end{align*}
+
+Αυτό είναι το αποτέλεσμα σε ένα $qubit$ με αρχική κατάσταση 0.
+Σε ένα $qubit$ με αρχική κατάσταση 1, η τελική κατάσταση θα είναι
+\begin{align*}
+  \frac{1}{\sqrt{2}}(\vert 0 \rangle - \vert 1 \rangle)
+\end{align*}
+Επομένως η πύλη $Hadamard$, θέτει το οποιοδήποτε $qubit$ πάνω στο οποίο επιδρά, σε υπέρθεση των δύο βασικών καταστάσεων. Η πιθανότητα να το μετρήσουμε και να το βρούμε σε μια από τις δυο βασικές καταστάσεις ισούται με 0.5.
+
+Έαν όμως ένα $qubit$ βρίσκεται σε μια υπέρθεση καταστάσεων, τότε έχουμε το εξής:
+
+\begin{align*}
+  H \frac{1}{\sqrt{2}}(\vert 0 \rangle + \vert 1 \rangle)
+  &= \begin{bmatrix}
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}\\
+    \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \frac{1}{\sqrt{2}}\\
+    \frac{1}{\sqrt{2}}
+  \end{bmatrix} = \begin{bmatrix}
+      1\\
+      0
+  \end{bmatrix} = \vert 0 \rangle
+\end{align*}
+
+Και εάν το  $qubit$ είναι στην υπέρθεση του δεύτερου αποτελέσματος, η επίδραση θα δίνει επίσης το αντίθετο αποτέλεσμα, που ισούται με $\vert 1 \rangle$.
+
+Συνοπτικά λοιπόν τα αποτελέσματα
+\\
+\begin{tabular}{lllll}
+\rowcolor[HTML]{C0C0C0}
+ &$\vert q_1 \rangle          $  & $\vert q_0 \rangle$ \\
+ &$\vert 0 \rangle            $  & $\frac{1}{\sqrt{2}}(\vert 0 \rangle + \vert 1 \rangle)$ \\
+ &$\vert 1 \rangle$  & $\frac{1}{\sqrt{2}}(\vert 0 \rangle - \vert 1 \rangle)$ \\
+ &$\frac{1}{\sqrt{2}}(\vert 0 \rangle + \vert 1 \rangle)$  & $\vert 0 \rangle$\\
+ &$\frac{1}{\sqrt{2}}(\vert 0 \rangle - \vert 1 \rangle)$  & $\vert 1 \rangle$
+\end{tabular}
+
 
 
 \subsection{\tl{Universal Quantum Gates}}
