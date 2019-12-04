@@ -157,6 +157,17 @@ $Hilbert$\cite{Kaye:2007:IQC:1206629}. Σε αντίθεση με τους κλ�
  &$\frac{1}{\sqrt{2}}(\vert 0 \rangle - \vert 1 \rangle)$  & $\vert 1 \rangle$
 \end{tabular}
 
+\subsection{Πύλες που δρουν σε δυο \tl{qubits}}
 
+\subsubsection{Η πύλη ελεγχόμενου ΟΧΙ}
+
+Η συγκεκριμένη πύλη επιδρά σε 2 $qubits$ και ο τελεστής της συμβολίζεται με $CNOT$. Από τα δύο $qubit$ στα οποία επιδρά, το ένα συμβολίζεται με $c$ και ονομάζεται $qubit$ ελέγχου και το δεύτερο με $t$ και ονομάζεται $qubit$ στόχος.Η πύλη $CNOT$, αλλάζει την κατάσταση του $qubit$  στόχου όταν το $qubit$ ελέγχου είναι $\vert 1 \rangle$ και την αφήνει ίδια στην αντίστροφη περίπτωση. 
+Η γενική περιγραφή της πύλης είναι:
+
+\begin{align*}
+  CNOT \vert c_i t_i \rangle = \vert c_o t_o \rangle
+\end{align*}
+
+Έστω ότι η κατάσταση του κβανικού καταχωρητή πριν τη δράση της πύλης είναι $\vert 1 0 \rangle$. Μετά την επίδραση της πύλης θα γίνει $\vert 11 \rangle$
 
 \subsection{\tl{Universal Quantum Gates}}
