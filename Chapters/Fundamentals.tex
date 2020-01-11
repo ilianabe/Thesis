@@ -27,7 +27,7 @@ $Hilbert$\cite{Kaye:2007:IQC:1206629}. Σε αντίθεση με τους κλ�
 \end{enumerate}
 
 \subsubsection{Κβαντικές Πύλες που δρουν σε ένα \tl{qubit}}
-\subsubsection{Κβαντική πύλη αδράνειας}
+\subsubsection{Κβαντική πύλη αδράνειας\tl{Identity Gate}}
 Η κβαντική πύλη αδράνειας συμβολίζεται με $I$ και περιγράφεται από έναν τελεστή που ονομάζεται τελεστής αδράνειας. Ο πίνακας της πύλης είναι ο παρακάτω:
 \\
 \begin{flalign*}
@@ -45,6 +45,24 @@ $Hilbert$\cite{Kaye:2007:IQC:1206629}. Σε αντίθεση με τους κλ�
  &$\vert 0 \rangle$  & $\vert 0 \rangle$ \\
  &$\vert 1 \rangle$  & $\vert 1 \rangle$ \\
  &$\vert q \rangle$  & $\vert q \rangle$
+\end{tabular}
+
+\subsubsection{\tl{X (NOT GATE)}}
+Αυτή η πύλη είναι η κβαντική ανάλογη της πύλης $ΝΟΤ$, η οποία μετατρέπει ένα $qubit$ στην αντίστροφη κατάσταση του.
+\begin{flalign*}
+  X &= \begin{bmatrix}
+    0 & 1\\
+    1 & 0
+\end{bmatrix}
+\end{flalign*}
+
+Τα αποτελέσματα της επίδρασης της φαίνονται στον παρακάτω πίνακα:
+
+\begin{tabular}{lllll}
+\rowcolor[HTML]{C0C0C0}
+ &$\vert q_1 \rangle$  & $\vert q_0 \rangle$ \\
+ &$\vert 0 \rangle$  & $\vert 1 \rangle$ \\
+ &$\vert 1 \rangle$  & $\vert 0 \rangle$
 \end{tabular}
 
 \subsubsection{Πύλη Μετατόπισης}
@@ -165,7 +183,7 @@ $Hilbert$\cite{Kaye:2007:IQC:1206629}. Σε αντίθεση με τους κλ�
 Η γενική περιγραφή της πύλης είναι:
 
 \begin{align*}
-  CNOT \vert c_i t_i \rangle = \vert c_o t_o \rangle 
+  CNOT \vert c_i t_i \rangle = \vert c_o t_o \rangle
 \end{align*}
 
 Έστω ότι η κατάσταση του κβανικού καταχωρητή πριν τη δράση της πύλης είναι $\vert 1 0 \rangle$. Μετά την επίδραση της πύλης θα γίνει $\vert 11 \rangle$.
@@ -202,3 +220,43 @@ $Hilbert$\cite{Kaye:2007:IQC:1206629}. Σε αντίθεση με τους κλ�
  &$\vert 10 \rangle$  & $\vert 10 \rangle$\\
  &$\vert 11 \rangle$  & $e^{i \varphi} \vert 11 \rangle$
 \end{tabular}
+
+\subsection{\tl{Qiskit}}
+
+Το $Qiskit$ είναι ένα $open-source$ $framework$ το οποίο αναπτύχθηκε από την $IBM$, για την προσομοίωση κβαντικών υπολογιστικών συστημάτων. Βασίζεται στη $python$ και χτησιμοποιείται για την κατασκευή αλγορίθμων για κβαντικούς υπολογιστές. Οι αλγόριθμοι αυτοί κατασκευάζουν τα αντίστοιχα κβαντικά συστήματα και τα χρησιμοποιούν με τη βοήθεια πυλών.
+
+Κάποια βασικά στοιχεία του $Qiskit$, είναι τα εξής:
+\begin{itemize}
+  \item \selectlanguage{english}\textbf{QuantumRegister}:\selectlanguage{greek} ο κβαντικός καταχωρητής είναι η κλάση που περιέχει τα $qubits$. Όταν τρέχει κάποια πύλη στο κύκλωμα μας, καλείται το $index$ που αντιστοιχεί στα $qubits$ που θέλουμε.
+  \item \selectlanguage{english}\textbf{QuantumCircuit}: \selectlanguage{greek}αυτή είναι η κλαση που περιλαμβάνει τις πληροφορίες για το κβαντικό σύστημα. Το κβαντικό κύκλωμα είναι αυτό το οποίο "τρέχει" στον $simulator$.
+  \item \selectlanguage{english}\textbf{Aer}:\selectlanguage{greek} με αυτή την κλάση χειριζόμαστε τον κλασσικό $simulator$.
+  \item \selectlanguage{english}\textbf{execute}:\selectlanguage{greek} αυτή η συνάρτηση είναι απαραίτητη για να τρέξουν οι αλγόριθμοι, καθώς το κβαντικό κύκλωμα απλά περιέχει την πληροφορία. Για να αρχίσει να τρέχει απαιτείται η συνάρτηση $execute$.
+\end{itemize}
+
+Η διαδικασία για να τρέξει ένας κβαντικός αλγόριθμος είναι η ακόλουθη:
+\begin{align*}
+  execute(QuantumCircuit, backend) \rightarrow job \rightarrow result \rightarrow display the results
+\end{align*}
+
+Ένα απλό παράδειγμα των βημάτων που ακολουθούμε στο $Qiskit$, είναι το παρακάτω:
+\begin{flalign*}
+  q = QuantumRegister(1)\\
+  qc = QuantumCircuit(q)\\
+  qc.iden(q[0])
+\end{flalign*}, όπου τα βήματα:
+
+\begin{itemize}
+  \item Όρισμος ενός κβαντικού καταχωρητή με τον αριθμό των $qubits$ που θέλουμε.
+  \item Ορισμός ενός κβαντικού κυκλώματος με παράμετρο τον κβαντικό καταχωρητή του προηγούμενου βήματος (και ενδεχομένων έναν κλασσικό καταχωρητή που μας βοηθάει στην κλασσική απεικόνιση των καταστάσεων)
+  \item Εφαρμογή πυλών σε κάθε $qubit$.
+\end{itemize}
+
+Η $default$ κατάσταση ενός $qubit$ στο $qiskit$ είναι η $\vert 0 \rangle$, οπότε όταν θέλουμε να θέσουμε ένα $qubit$ στην κατάσταση $\vert 1 \rangle$, το περνάμε από μια πύλη $NOT$.
+Στη συνέχεια για να θέσουμε σε λειτουργία το κύκλωμα έχουμε τα εξής:
+\begin{flalign*}
+  job = execute(qc, statevector_simulator)\\
+  result = job.result()\\
+  result.get_statevector()
+\end{flalign*}
+
+Όπως είπαμε και πριν, στο $qiskit$, ένα κύκλωμα δεν είναι ένα φυσικό σύστημα. Είναι περισσότερο ένα σύνολο οδηγιών σχετικά με το τι πρέπει να κάνει. Οι παραπάνω τρεις γραμμές, μετατρέπουν το κύκλωμα αυτό σε αποτέλεσμα μιας συνάρτησης που μπορούμε να τυπώσουμε. Η τελευταία γραμμή, χρησιμοποεί τη συνάρτηση $get_statevector()$, η οποία ορίζεται στην κλάση $Result$ και εκτυπώνει την κυματική συνάρτηση σαν αποτέλεσμα λίστας ($array$).
