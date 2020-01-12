@@ -405,3 +405,33 @@ $\begin{bmatrix}
 % Όπως είδαμε αναλυτικά παραπάνω, ο διακριτός μετασχηματισμός $Fourier$ έχει σαν είσοδο ένα διάνυσμα μιγαδικών αριθμών ($x_0, ..., x_N-1$), όπου $N$ είναι το μήκος τους διανύσματος. Η έξοδος μετά τη μετατροπή που εφαρμόζει ο αλγόριθμος είναι ένα διάνυσμα $y_0, ..., y_N-1$, το οποίο ορίζεται ως εξής:
 %
 % Ο κβαντικός μετασχηματισμός $Fourier$,
+\subsection{\tl{QFT in Qiskit}}
+
+Πιο πάνω είδαμε κάποια παραδείγματα σχετικά με τις μετατροπές με τον $QFT$.
+Για να υλοποιήσουμε τον $QFT$ στο $Qiskit$, αρχικά χρησιμοποιούμε μια πύλη $Hadamard$. Η εφαρμογή της πύλης $Hadamard$ σε ένα $qubit$, μας επιστρέφει μια υπέρθεση των δύο καταστάσεων με πιθανότητα 0.5 για την καθεμία. Ο γενικός τύπος της πύλης είναι ο εξής:
+\begin{align}
+  H \vert x_k \rangle = \vert 0 \rangle + exp(\frac{2 \pi i}{2}x_k)
+\end{align}
+
+Στη συνέχεια εφαρμόζουμε μια πύλη $CROT_k$ της εξής μορφής:
+$\begin{bmatrix}
+Ι && 0\\
+0 && UROT_k
+\end{bmatrix}$, όπου $UROT_k$ = $\begin{bmatrix}
+1 && 0\\
+0 && exp(\frac{2 \pi i}{2^k})
+\end{bmatrix}$.
+\\
+Το κύκλωμα που απεικονίζει τον κβαντικό αλγόριθμο $Fourier$ σε $n-qubits$ είναι το παρακάτω.
+\\
+\includegraphics[width=10cm]{figures/700px-Q_fourier_nqubits}\\
+\\
+Με βάση τη σχέση (5.1), μπορούμε να δούμε το κύκλωμα να λειτουργεί με τα εξής βήματα, ξεκινώντας από μια κατάσταση $\vert x_1 x_2 .... x_n \rangle$ $qubits$~\cite{qft_qiskit}.
+
+\begin{enumerate}
+  \item Μετά την πύλη $Hadamard$, έχουμε αυτή την κατάσταση:\\
+  $H_1 \vert x_1 x_2 ... x_n \rangle$ $=$ $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2}x_1)\vert 1 \rangle]$ $\bigotimes$ $\vert x_2x_3...x_n \rangle$
+  \item Μετα την $CROT_2$ στο $qubit$ 1 (το οποίο ελέγχεται από το $qubit$ 2), η κατάσταση γίνεται $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2}x_2 + \frac{2 \pi i}{2}x_1)\vert 1 \rangle]$ $\bigotimes$ $\vert x_2x_3...x_n \rangle$
+  \item Μετά την επίδραση της $CROT_n$ πύλης στο $qubit$ 1, ελεγχόμενο από το $qubit$ $n$, η κατάσταση είναι: $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2^n}x_n + \frac{2 \pi i}{2^{n-1}}x_{n-1} + ... + \frac{2 \pi i}{2}x_2 + \frac{2 \pi i}{2}x_1)\vert 1 \rangle]$ $\bigotimes$ $\vert x_2x_3...x_n \rangle$
+  \item Κάνουμε το ίδιο για όλα τα $qubits$ για να καταλήξουμε στην τελική κατάσταση που είναι $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2^n}x) \vert 1 \rangle]$ $\bigotimes$ $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2^{n-1}}x) \vert 1 \rangle]$ $\bigotimes$ ... $\bigotimes$ $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2^2}x) \vert 1 \rangle]$ $\bigotimes$ $\frac{1}{\sqrt{2}}[\vert 0 \rangle + exp(\frac{2 \pi i}{2^1}x) \vert 1 \rangle]$
+\end{enumerate}
